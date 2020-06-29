@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 
@@ -14,12 +15,16 @@ const char box_lid[]      = "+-------------------+";
 const int offset = 13;
 
 int main(int argc, char const *argv[]) {
+  int run_time = 3;
+  if (argc > 1) {
+    run_time = atoi(argv[1]) + 1;
+  }
 
   int box_width = strlen(box_lid);
   int margin = (box_width - strlen(up_arms)) / 2;
 
   int i = 1;
-  while (i < 3) {
+  while (i < run_time) {
     printf("%*s%s\n", offset, "", box_lid);
     printf("%*s%-*s|\n", offset, "", box_width - 1, "|");
     printf("%*s%-*s|\n", offset, "", box_width - 1, "|");
