@@ -32,42 +32,46 @@ int main(int argc, char const *argv[]) {
   noecho();
   curs_set(FALSE);
 
-  // Set dimentional variables
+  // Declare and Set dimentional variables
   int win_width, win_height;
   getmaxyx(stdscr, win_height, win_width);
-
   int box_width = strlen(box_lid);
   int margin = (box_width - strlen(up_arms)) / 2;
   int box_origin[] = {(win_width / 2) - (box_width / 2), (win_height / 2) - (box_height / 2)};
+  int x, y;
 
+  // Declare strings for drawing
   char str[box_width];
   char head[box_width];
   char body[box_width];
   char feet[box_width];
-  char progress[box_width];
 
-  int x, y;
+  // Cycling variables for cycling image
   int face_left = 0;
   int raise_arms = 0;
 
-  int i = 0;
-  while (i < run_time) {
+  // Declare variables for progress bar
+  char progress_bar[box_width];
+  int completed;
 
-    if (i % 4 == 0) face_left ^= 1;
-    if (i % 1 == 0) raise_arms ^= 1;
+  int cycle = 1;
+  while (cycle < run_time) {
+
+    if (cycle % 4 == 0) face_left ^= 1;
+    if (cycle % 1 == 0) raise_arms ^= 1;
 
     if (face_left) {
-      sprintf(head, "%-*s%s%*s\n",margin, "|", left_facing, margin, "|");
-      sprintf(feet, "%-*s%s%*s\n",margin, "|", step_left, margin, "|");
+      sprintf(head, "%-*s%s%*s",margin, "|", left_facing, margin, "|");
+      sprintf(feet, "%-*s%s%*s",margin, "|", step_left, margin, "|");
     } else {
-      sprintf(head, "%-*s%s%*s\n",margin, "|", right_facing, margin, "|");
-      sprintf(feet, "%-*s%s%*s\n",margin, "|", step_right, margin, "|");
+      sprintf(head, "%-*s%s%*s",margin, "|", right_facing, margin, "|");
+      sprintf(feet, "%-*s%s%*s",margin, "|", step_right, margin, "|");
     }
 
     if (raise_arms) {
-      sprintf(body, "%-*s%s%*s\n",margin, "|", up_arms, margin, "|");
+      sprintf(body, "%-*s%s%*s",margin, "|", up_arms, margin, "|");
     } else {
-      sprintf(body, "%-*s%s%*s\n",margin, "|", down_arms, margin, "|");
+      sprintf(body, "%-*s%s%*s",margin, "|", down_arms, margin, "|");
     }
 
     clear();
@@ -79,7 +83,7 @@ int main(int argc, char const *argv[]) {
     sprintf(str, "%s", box_lid);
     mvprintw(y++, x, str);
     for (size_t i = 0; i < 2; i++) {
-      sprintf(str, "%-*s|\n", box_width - 1, "|");
+      sprintf(str, "%-*s|", box_width - 1, "|");
       mvprintw(y++, x, str);
     }
 
@@ -90,15 +94,24 @@ int main(int argc, char const *argv[]) {
 
     // Draw bottom and lower empty rows beneath the penguins feet
     for (size_t i = 0; i < 2; i++) {
-      sprintf(str, "%-*s|\n", box_width - 1, "|");
+      sprintf(str, "%-*s|", box_width - 1, "|");
       mvprintw(y++, x, str);
     }
     sprintf(str, "%s", box_lid);
-    mvprintw(y, x, str);
+    mvprintw(y++, x, str);
+
+    // Draw progress bar
+    completed = (int)(((float)cycle/(float)(run_time - 1)) * (box_width - 2));
+    sprintf(progress_bar, "%s", "");
+    for (size_t j = 0; j < completed; j++) {
+      sprintf(progress_bar, "%s#", progress_bar);
+    }
+    sprintf(str, "%s%-*s%s", "[", box_width - 2, progress_bar, "]");
+    mvprintw(++y, x, str);
 
     refresh();
 
-    i++;
+    cycle++;
     usleep(250000);
   }
 
