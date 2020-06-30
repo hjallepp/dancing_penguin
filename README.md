@@ -3,7 +3,7 @@ A humorous dancing penguin visualized with ascii characters. A fun little comman
 
 ## How to Run
 
-**NOTE! This program was written on a Unix system and has no guarantee to work on any other platform.**
+**NOTE! This program will most likely only run on a Linux machine.**
 
 This You will need:
 * A C compiler, for example gcc
