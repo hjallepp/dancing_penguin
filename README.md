@@ -16,7 +16,7 @@ gcc dancing_penguin.c -o demo -lncurses
 
 Run:
 ```
-demo <seconds of dancing>
+./demo <seconds of dancing>
 ```
 
 Like and subscribe!
