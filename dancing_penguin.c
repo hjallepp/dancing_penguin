@@ -32,13 +32,12 @@ int main(int argc, char const *argv[]) {
   noecho();
   curs_set(FALSE);
 
-  // Declare and Set dimentional variables
+  // Dimensional variables
   int win_width, win_height;
-  getmaxyx(stdscr, win_height, win_width);
+  int x, y;
+  int box_origin[2];
   int box_width = strlen(box_lid);
   int margin = (box_width - strlen(up_arms)) / 2;
-  int box_origin[] = {(win_width / 2) - (box_width / 2), (win_height / 2) - (box_height / 2)};
-  int x, y;
 
   // Declare strings for drawing
   char str[box_width];
@@ -56,6 +55,9 @@ int main(int argc, char const *argv[]) {
 
   int cycle = 1;
   while (cycle < run_time) {
+    getmaxyx(stdscr, win_height, win_width);
+    box_origin[0] = (win_width / 2) - (box_width / 2);
+    box_origin[1] = (win_height / 2) - (box_height / 2);
 
     if (cycle % 4 == 0) face_left ^= 1;
     if (cycle % 1 == 0) raise_arms ^= 1;
